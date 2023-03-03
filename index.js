@@ -179,9 +179,33 @@ const best = async dir => {
   log('best', best)
 }
 
+const usage = () => log(`
+MAINFRAME :: Automatic Frame Extraction
+
+Usage:
+  $ mainframe <input> [-<command>]
+
+  <input>:
+    video.mp4   The name of a video file to process (mp4,mov,mkv,etc.)
+    directory   The name of a directory containing frames/images to process
+
+  -<command>:
+    -e          Extracts all frames from input video
+    -s          Sorts all frames by sharpness
+    -g          Groups all frames by simularity
+    -r          Ranks all frames by averaging sharpness and trashes below average
+
+  Utility Commands:
+    -u          Ungroups a set of grouped frames without trashing
+    -b          Compares sharpness frame by frame keeping only the best frames
+
+`)
+
 async function main() {
   time()
   const [input, cmd, threshold] = process.argv.slice(2)
+  if (!input) return usage()
+  
   const dir = statSync(input).isDirectory() ? input : '.'
   log('Extract', dir + '...')
 
