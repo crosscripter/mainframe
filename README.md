@@ -6,5 +6,4 @@ Automatically select the best still frames from videos!
 
 ## Usage
 
-![image](https://user-images.githubusercontent.com/315043/222757377-124b1db7-f3e8-4c22-b2a8-6a1b66649f07.png)
-
+![image](https://user-images.githubusercontent.com/315043/222782049-26ccfd64-8fbf-485d-8448-14a7afcb2c79.png)
