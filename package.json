@@ -1,25 +1,22 @@
 {
-  "name": "extractor",
+  "name": "mainframe",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@sashido/teachablemachine-node": "^1.2.2",
-    "@tensorflow-models/knn-classifier": "^1.2.4",
-    "@tensorflow-models/mobilenet": "^2.1.0",
     "async": "^3.2.4",
-    "canvas": "^2.11.0",
-    "express": "^4.18.2",
-    "ffmpeg-progress-wrapper": "^2.0.1",
     "jimp": "^0.16.2",
-    "node-resemble-js": "^0.2.0",
     "sharp": "^0.31.1",
-    "tensorset": "^1.2.9",
     "underscore": "^1.13.6"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": "index.js",
+  "pkg": {
+    "assets": "node_modules/**/*",
+    "targets": [ "node16-win-x64" ]
   },
   "keywords": [],
   "author": "",
