@@ -16,13 +16,13 @@ const {
   readdirSync,
 } = require('fs')
 
-const DIST = 4
+const DIST = 5
 const MIN = 0.2
 const EXT = '.png'
 const DELIM = '__'
 const PRECISION = 5
 const TRASH = '_trash'
-const THRESHOLD = 0.05
+const THRESHOLD = 0.025
 const EXTS = /\.(png|jpe?g)$/i
 
 const joinName = (...parts) => parts.join(DELIM) + EXT
@@ -47,11 +47,12 @@ const rm = item => rmSync(item, { recursive: true })
 const md = name => !existsSync(name) && mkdirSync(name)
 const clean = () => [images, dirs].flatMap(f => f('.')).forEach(rm)
 
-const ungroup = dir =>
-  dirs(dir).forEach(d => {
-    images(join(dir, d)).forEach(f => mv(join(dir, d, f), join(dir, f)))
-    rm(join(dir, d))
-  })
+const ungroupDir = (dir, d) => {
+  images(join(dir, d)).forEach(f => mv(join(dir, d, f), join(dir, f)))
+  rm(join(dir, d))
+}
+
+const ungroup = dir => dirs(dir).forEach(d => ungroupDir(dir, d))
 
 const extract = input => {
   log('Extracting...')
@@ -121,6 +122,7 @@ const group = async (dir, threshold) => {
     log(`${i}/${len} ${group}`)
 
     if (!same) {
+      if (images(groupdir())?.length === 1) ungroupDir(dir, zfill(group))
       group++
       md(groupdir())
     }
@@ -209,7 +211,7 @@ async function main() {
   const dir = statSync(input).isDirectory() ? input : '.'
   log('Extract', dir + '...')
 
-  if (!cmd) clean()
+  if (!cmd && dir === '.') clean()
   if ((!cmd && dir == '.') || cmd == '-e') extract(input)
   if (!cmd || cmd == '-s') await sort(dir)
   if (!cmd || cmd == '-g') await group(dir, threshold)
